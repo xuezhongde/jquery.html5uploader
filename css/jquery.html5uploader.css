@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+.file-list {
+	padding: 0;
+	margin: 0px;
+}
+
+.file-list .file-item {
+	list-style-type: none;
+	margin-top: 10px;
+}
+
+.file-selector, .file-upload-btn, .file-delete-btn {
+	display: inline-block;
+	border: 1px solid #999;
+	line-height: 24px;
+	border-radius: 2px;
+	padding: 0 18px;
+	font-size: 12px;
+	color: #666;
+	cursor: pointer;
+	background: url(images/btnbg.png) repeat-x 0 0;
+	text-decoration: none;
+}
+
+.file-name, .file-upload-progress-num, .file-upload-btn, .file-delete-btn {
+	font-size: 12px;
+	color: #666;
+	margin-left: 10px;
+}
+
+.file-upload-progress {
+	display: inline-block;
+	width: 300px;
+	height: 10px;
+	background-color: white;
+	border-radius: 20px;
+	border: 2px groove #666;
+	vertical-align: middle;
+	padding: 0 2px;
+}
+
+.file-upload-progress-bar {
+	width: 0;
+	height: 9px;
+	border-radius: 20px;
+	background: url(images/jdt.png) repeat-x center;
+}
+
+.file-upload-status {
+	display: none;
+	margin-left: 10px;
+}

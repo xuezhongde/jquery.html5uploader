@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta content="telephone=no" name="format-detection">
+		
+		<link rel="stylesheet" href="../css/jquery.html5uploader.min.css" />
+		<title>jquery.html5uploader Examples</title>
+	</head>
+	
+	<body>
+		<div id="logFileUpload"></div>
+		
+		<script src="../js/jquery/jquery-1.10.2.min.js"></script>
+		<script src="../js/jquery.html5uploader.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#logFileUpload').html5uploader({
+					url:'/upload', //server side upload process
+					auto:false,
+					multi:true,
+					maxFileSize: 20 * 1024 * 1024,
+					blackListFileType: /(text.*)|(image.*)|(audio.*)|(video.*)|(message.*)|(x-world.*)|(mail.*)|(application\/ms.*)|(application\/octet.*)|(application\/vnd.*)|(application\/x-.*)/,
+					allowedFileType: 'application/zip',
+					buttonText:'请选择文件',
+					removeTimeout:5000,
+					onFileSizePrevent: function(file){
+						alert(file.name + ", 文件大小超限！");
+					},
+					onFileTypePrevent: function(file){
+						alert(file.name + ", 无效文件类型！");
+					},
+					onUploadComplete:function(file, responseText){
+						var $uploadStatus = $('#' + file.fileId).find(".file-upload-status");
+						var tips = '';
+						
+						var _respJson = eval('(' + responseText + ')');
+						
+						switch(_respJson.rc) {
+						case "0":
+							tips = '上传失败！';
+							break;
+						case "1":
+							tips = '上传成功.';
+							break;
+						case "2":
+							tips = '上传异常！';
+							break;
+						//... ... 
+						}
+						
+						if(_respJson.rc == '1') {
+							$uploadStatus.show().css("color", "green");
+							$uploadStatus.empty().text(tips);
+							var uploader = this;
+							setTimeout(function () { uploader.deleteFile(file) }, uploader.opts.removeTimeout);
+						}else{
+							$uploadStatus.show().css("color", "red");
+							$uploadStatus.empty().text(tips);
+						}
+					},
+					onUploadError:function(file, responseText){
+						var $uploadStatus = $('#' + file.fileId).find(".file-upload-status");
+						$uploadStatus.show().css("color", "red");
+						$uploadStatus.empty().text('系统异常！');
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
